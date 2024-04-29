@@ -7,11 +7,11 @@ import (
 // Stop represents a stop in a line. It can be a bus stop, a train station, etc.
 type Stop struct {
 	gorm.Model
-	Name              string  `json:"name"`               // GTFS: stop_name
-	Description       *string `json:"description"`        // GTFS: stop_desc
-	Latitude          float64 `json:"latitude"`           // GTFS: stop_lat
-	Longitude         float64 `json:"longitude"`          // GTFS: stop_lon
-	WeelchairBoarding *bool   `json:"weelchair_boarding"` // GTFS: weelchair_boarding
+	Name               string  `json:"name"`                // GTFS: stop_name
+	Description        *string `json:"description"`         // GTFS: stop_desc
+	Latitude           float64 `json:"latitude"`            // GTFS: stop_lat
+	Longitude          float64 `json:"longitude"`           // GTFS: stop_lon
+	WheelchairBoarding *bool   `json:"wheelchair_boarding"` // GTFS: wheelchair_boarding
 
 	StopTimes []ScheduleStop `json:"stop_times"`
 
