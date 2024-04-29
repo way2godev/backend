@@ -9,7 +9,6 @@ import (
 	"way2go/api/general"
 	"way2go/api/middleware"
 	"way2go/api/stops"
-	"way2go/api/cache"
 
 	"github.com/gorilla/mux"
 	"github.com/rs/cors"
@@ -33,7 +32,6 @@ func (s *server) Run(started chan bool) {
 	general.SetupRoutes(v1)
 	agencies.SetupRoutes(v1)
 	stops.SetupRoutes(v1)
-	cache.SetupRoutes(v1)
 
 	s.printRoutes()
 	s.startHttpServer(started)

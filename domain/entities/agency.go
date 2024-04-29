@@ -6,11 +6,17 @@ import (
 
 // Agency represents a transport agency.
 // Eg: Renfe, EMT, etc.
+// GTFS: Agency.txt
 type Agency struct {
 	gorm.Model
-	Name        string  `json:"name"`
-	RawId       *string `json:"raw_id"`
-	Url         *string `json:"url"`
-	PhoneNumber *string `json:"phone_number"`
-	Line        []Line  `json:"lines"`
+	Name string `json:"name"` // GTFS: agency_name
+	Line []Line `json:"lines"`
+
+	GtfsAgencyId       string  `json:"gtfs_agency_id"`
+	GtfsAgencyName     string  `json:"gtfs_agency_name"`
+	GtfsAgencyUrl      string  `json:"gtfs_agency_url"`
+	GtfsAgencyTimezone string  `json:"gtfs_agency_timezone"`
+	GtfsAgencyLang     *string `json:"gtfs_agency_lang"`
+	GtfsAgencyPhone    *string `json:"gtfs_agency_phone"`
+	GtfsAgencyEmail    *string `json:"gtfs_agency_email"`
 }

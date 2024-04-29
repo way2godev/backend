@@ -16,12 +16,15 @@ func (s *MigrateModelsService) MigrateModels() {
 	start := time.Now()
 
 	database.DB.AutoMigrate(&entities.Agency{})
+	database.DB.AutoMigrate(&entities.Calendar{})
+	database.DB.AutoMigrate(&entities.CalendarException{})
+	database.DB.AutoMigrate(&entities.Datasource{})
 	database.DB.AutoMigrate(&entities.Line{})
-	database.DB.AutoMigrate(&entities.LineVariant{})
 	database.DB.AutoMigrate(&entities.Schedule{})
 	database.DB.AutoMigrate(&entities.ScheduleStop{})
+	database.DB.AutoMigrate(&entities.Shape{})
+	database.DB.AutoMigrate(&entities.ShapeElement{})
 	database.DB.AutoMigrate(&entities.Stop{})
-	database.DB.AutoMigrate(&entities.Datasource{})
 
 	log.Printf("Migration completed in %v\n", time.Since(start))
 }

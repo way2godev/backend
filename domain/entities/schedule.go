@@ -1,27 +1,23 @@
 package entities
 
 import (
-	"time"
-
 	"gorm.io/gorm"
 )
 
 // Schedule represents a schedule for a line variant.
 // Eg: The one that departs at 8:00am, at 9:00am, etc. those are different schedules.
+// GTFS: Trips.txt
 type Schedule struct {
 	gorm.Model
-	LineVariantID uint   `json:"line_variant_id"`
-	Days          string `json:"days" gorm:"type:varchar(7);default:'1111111'"`
+	LineID uint    `json:"line_id"`
+	Name   *string `json:"name"` // GTFS: trip_headsign
 
 	ScheduleStops []ScheduleStop `json:"schedule_stops"`
-}
+	Shape         Shape          `json:"shape"`
+	Calendar      Calendar       `json:"calendar"`
 
-// ScheduleStop represents a stop in a schedule.
-// Eg: Inside a schedule, the first stop is at 8:00am, the second at 8:10am, etc.
-type ScheduleStop struct {
-	gorm.Model
-	ScheduleID uint      `json:"schedule_id"`
-	StopID     uint      `json:"stop_id"`
-	Order      uint      `json:"order"`
-	Time       time.Time `json:"time"`
+	GtfsServiceId     string  `json:"gtfs_service_id"`
+	GtfsTripId        string  `json:"gtfs_trip_id"`
+	GtfsTripShortName *string `json:"gtfs_trip_short_name"`
+	GtfsBikesAllowed  *int    `json:"gtfs_bikes_allowed"`
 }

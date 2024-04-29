@@ -7,7 +7,7 @@ func RunJobs(started chan bool) {
 	defer wg.Wait()
 
 	wg.Add(1)
-	go UpdateStopsCache()
+	// go UpdateStopsCache()
 
 	// Añadir aquí los jobs que se quieran ejecutar
 
