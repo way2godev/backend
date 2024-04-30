@@ -12,8 +12,8 @@ type ScheduleStop struct {
 	gorm.Model
 	ScheduleID            uint      `json:"schedule_id"`
 	StopID                uint      `json:"stop_id"`
-	ScheduleSequence      uint      `json:"schedule_sequence"`
-	ArrivalTime           time.Time `json:"arrival_time"`
-	DepartureTime         time.Time `json:"departure_time"`
+	StopSequence          uint      `json:"stop_sequence"`
+	ArrivalTime           time.Time `json:"arrival_time" gorm:"type:time without time zone"`
+	DepartureTime         time.Time `json:"departure_time" gorm:"type:time without time zone"`
 	ShapeDistanceTraveled *float64  `json:"shape_distance_traveled"`
 }
