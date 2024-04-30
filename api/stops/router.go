@@ -5,5 +5,7 @@ import (
 )
 
 func SetupRoutes(r *mux.Router) {
-	// stops := r.PathPrefix("/stops").Subrouter()
+	stops := r.PathPrefix("/stops").Subrouter()
+
+	stops.HandleFunc("", index).Methods("GET")
 }

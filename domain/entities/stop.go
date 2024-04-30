@@ -1,6 +1,8 @@
 package entities
 
 import (
+	"way2go/infraestructure/database"
+
 	"gorm.io/gorm"
 )
 
@@ -19,4 +21,17 @@ type Stop struct {
 	GtfsStopCode     *string `json:"gtfs_stop_code"`
 	GtfsLocationType *int    `json:"gtfs_location_type"`
 	GtfsStopTimezone *string `json:"gtfs_stop_timezone"`
+}
+
+func GetStops(page int) (stops []Stop, total int64, err error) {
+	db := database.GetDB()
+	err = db.Offset((page - 1) * 10).Limit(10).Order("name").Find(&stops).Error
+	if err != nil {
+		return nil, 0, err
+	}
+	err = db.Model(&Stop{}).Count(&total).Error
+	if err != nil {
+		return nil, 0, err
+	}
+	return stops, total, nil
 }
