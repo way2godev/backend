@@ -25,6 +25,9 @@ func main() {
 	// Migrate the models if the --migrate flag is set on argv or the app is in production
 	if len(os.Args) > 1 && os.Args[1] == "--migrate" || os.Getenv("APP_ENV") == "production" {
 		services.MigrateModelsServiceInstance.MigrateModels()
+	} else if len(os.Args) > 1 && os.Args[1] == "--drop" {
+		services.MigrateModelsServiceInstance.DropModels()
+		services.MigrateModelsServiceInstance.MigrateModels()
 	}
 
 	var wg sync.WaitGroup

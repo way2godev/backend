@@ -13,7 +13,6 @@ type Agency struct {
 	Line []Line `json:"lines"`
 
 	GtfsAgencyId       string  `json:"gtfs_agency_id"`
-	GtfsAgencyName     string  `json:"gtfs_agency_name"`
 	GtfsAgencyUrl      string  `json:"gtfs_agency_url"`
 	GtfsAgencyTimezone string  `json:"gtfs_agency_timezone"`
 	GtfsAgencyLang     *string `json:"gtfs_agency_lang"`
