@@ -1,11 +1,12 @@
 ARG GOLANG_VERSION=1.22.2
-FROM go:${GOLANG_VERSION} as builder
+FROM golang:${GOLANG_VERSION}-alpine as builder
 
 WORKDIR /app
 
 # User
 ARG UID=10001
-RUN --disabled-password \
+RUN adduser \
+    --disabled-password \
     --gecos "" \
     --home "/nonexistent" \
     --shell "/sbin/nologin" \
