@@ -11,7 +11,7 @@ import (
 
 var DB *gorm.DB
 
-func InitDB() (bool) {
+func InitDB() {
     dsn := os.Getenv("DATABASE_DSN")
 	if dsn == "" {
 		log.Fatalf("DATABASE_DSN environment variable not set")
@@ -28,13 +28,11 @@ func InitDB() (bool) {
 		Logger: logger.Default.LogMode(l),
 	})
     if err != nil {
-        return false
+		log.Fatalf("Failed to connect to the database: %v", err)
     }
 
 	log.Print("Database connection established")
     DB = db
-
-    return true
 }
 
 

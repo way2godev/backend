@@ -17,20 +17,15 @@ func index(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, err.Error(), http.StatusBadRequest)
 		return
 	}
-	
-	stops, total, err := entities.GetStops(page)
-	if err != nil {
-		http.Error(w, err.Error(), http.StatusInternalServerError)
-		return
-	}
 
+	stops, total, err := entities.GetStopsPaginatedJoinLines(page)
 	w.WriteHeader(http.StatusOK)
 	response := map[string]interface{}{
 		"stops": stops,
 		"pagination": map[string]interface{}{
-			"page": page,
+			"page":  page,
 			"total": total,
-		},	
+		},
 	}
 	json.NewEncoder(w).Encode(response)
 }

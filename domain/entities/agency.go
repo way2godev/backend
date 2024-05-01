@@ -9,7 +9,7 @@ import (
 // GTFS: Agency.txt
 type Agency struct {
 	gorm.Model
-	Name string `json:"name"` // GTFS: agency_name
+	Name string `json:"name"` 
 	Line []Line `json:"lines"`
 
 	GtfsAgencyId       string  `json:"gtfs_agency_id"`
