@@ -13,7 +13,8 @@ RUN adduser \
     --no-create-home \
     --uid "${UID}" \
     appuser
-USER appuser
+
+RUN chown -R appuser /app && chmod -R 755 /app
 
 # Install dependencies
 COPY go.mod go.sum ./
