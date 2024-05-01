@@ -89,10 +89,10 @@ func (r *gtfsRoute) saveToDatabase() {
 	}
 
 	var name string
-	if r.RouteShortName != "" {
-		name = r.RouteShortName
-	} else {
+	if r.RouteLongName != "" {
 		name = r.RouteLongName
+	} else {
+		name = r.RouteShortName
 	}
 
 	route := entities.Line{
