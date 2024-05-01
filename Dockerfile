@@ -14,8 +14,6 @@ RUN adduser \
     --uid "${UID}" \
     appuser
 
-RUN chown -R appuser /app && chmod -R 755 /app
-
 # Install dependencies
 COPY go.mod go.sum ./
 RUN go mod download && go mod verify
@@ -34,7 +32,11 @@ FROM alpine:latest as production
 
 WORKDIR /app
 
-RUN mkdir data
+COPY --from=builder /etc/passwd /etc/passwd
+
+RUN mkdir data && \
+    chown -R appuser /app && \
+    chmod -R 755 /app
 
 # Copy the binary from the builder stage
 COPY --from=builder /app/bin ./bin
@@ -43,7 +45,6 @@ COPY --from=builder /app/bin ./bin
 COPY --from=builder /app/microservices/gtfs-parser/sources.csv ./microservices/gtfs-parser/sources.csv
 
 # User
-COPY --from=builder /etc/passwd /etc/passwd
 USER appuser
 
 ENV PORT=5000
