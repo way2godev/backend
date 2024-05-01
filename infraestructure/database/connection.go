@@ -31,6 +31,12 @@ func InitDB() {
 		log.Fatalf("Failed to connect to the database: %v", err)
     }
 
+	raw, _ := db.DB()
+	raw.Ping()
+
+	raw.SetMaxOpenConns(10)
+	raw.SetMaxIdleConns(10)
+
 	log.Print("Database connection established")
     DB = db
 }

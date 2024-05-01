@@ -41,9 +41,6 @@ RUN mkdir data && \
 # Copy the binary from the builder stage
 COPY --from=builder /app/bin ./bin
 
-# Copy the ./microservices/gtfs-parser/sources.csv
-COPY --from=builder /app/microservices/gtfs-parser/sources.csv ./microservices/gtfs-parser/sources.csv
-
 # User
 USER appuser
 

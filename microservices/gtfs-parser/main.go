@@ -7,8 +7,9 @@ import (
 	"net/http"
 	"os"
 	"way2go/bootstrap"
+	"way2go/domain/entities"
+	"way2go/infraestructure/database"
 	"way2go/microservices/gtfs-parser/constants"
-	"way2go/microservices/gtfs-parser/csv"
 	"way2go/microservices/gtfs-parser/parsers"
 
 	"github.com/mholt/archiver"
@@ -19,13 +20,11 @@ import (
 func main() {
 	bootstrap.Init()
 
-	// Open the datasource.csv
-	sources, err := csv.Read(constants.SOURCES_FILE)
-	if err != nil {
-		log.Fatalf("Error reading CSV: %v", err)
-		return
-	}
-	log.Printf("Found in total %d sources\n", len(sources))
+	db := database.GetDB()
+
+	var datasources []entities.Datasource
+	db.Find(&datasources)
+	log.Printf("Found in total %d datasources\n", len(datasources))
 
 	// Create the data directory if it doesn't exist
 	if _, err := os.Stat(constants.WORKDIR); os.IsNotExist(err) {
@@ -36,15 +35,15 @@ func main() {
 		removeItemsFromWorkdir()
 	}
 
-	for _, source := range sources {
-		log.Printf("Processing source %s\n", source["name"])
+	for _, source := range datasources {
+		log.Printf("Processing source %s\n", source.Name)
 		log.Printf("Source data: %v\n", source)
 
 		// Download the zip file
-		err := downloadZip(source["download_url"])
+		err := downloadZip(source.Url)
 		if err != nil {
 			log.Printf("Error downloading zip file: %v\n", err)
-			log.Printf("Skipping source %s\n", source["name"])
+			log.Printf("Skipping source %s\n", source.Name)
 			continue
 		}
 
@@ -55,7 +54,7 @@ func main() {
 		parsers.Stops()
 
 		removeItemsFromWorkdir()
-		log.Printf("Finished processing source %s\n", source["name"])
+		log.Printf("Finished processing source %s\n", source.Name)
 	}
 
 }
