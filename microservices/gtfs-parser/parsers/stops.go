@@ -104,6 +104,11 @@ func (s *gtfsStop) saveToDatabase() {
 		locType = &locTypeInt
 	}
 
+	var timeZone *string // This will be nil if the timezone is empty
+	if s.StopTimezone != "" {
+		timeZone = &s.StopTimezone
+	}
+
 	stop := entities.Stop{
 		Name:               s.StopName,
 		Description:        &s.StopDesc,
@@ -113,7 +118,7 @@ func (s *gtfsStop) saveToDatabase() {
 		GtfsStopId:         s.StopID,
 		GtfsStopCode:       &s.StopCode,
 		GtfsLocationType:   locType,
-		GtfsStopTimezone:   &s.StopTimezone,
+		GtfsStopTimezone:   timeZone,
 	}
 
 	// Check if the stop already exists
