@@ -77,6 +77,7 @@ func downloadZip(url string) error {
 	log.Printf("Downloading file from %s\n", url)
 	resp, err := http.Get(url)
 	if err != nil {
+		log.Printf("Error downloading file: %v", err)
 		return err
 	}
 	defer resp.Body.Close()
@@ -84,6 +85,7 @@ func downloadZip(url string) error {
 	// Create the file
 	out, err := os.Create(fmt.Sprintf("%s/%s", constants.WORKDIR, "file.zip"))
 	if err != nil {
+		log.Printf("Error creating file: %v", err)
 		return err
 	}
 	defer out.Close()
@@ -91,6 +93,7 @@ func downloadZip(url string) error {
 	// Write the content
 	_, err = io.Copy(out, resp.Body)
 	if err != nil {
+		log.Printf("Error writing file: %v", err)
 		return err
 	}
 	log.Printf("Downloaded file from %s\n", url)
