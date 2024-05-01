@@ -34,6 +34,8 @@ FROM alpine:latest as production
 
 WORKDIR /app
 
+RUN mkdir data
+
 # Copy the binary from the builder stage
 COPY --from=builder /app/bin ./bin
 
