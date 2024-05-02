@@ -51,6 +51,7 @@ func main() {
 		parsers.Routes()
 		parsers.Trips()
 		parsers.Stops()
+		parsers.StopTimes()
 
 		removeItemsFromWorkdir()
 		log.Printf("Finished processing source %s\n", source.Name)
