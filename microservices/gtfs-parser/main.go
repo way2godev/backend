@@ -51,6 +51,7 @@ func main() {
 
 		parsers.Agencies()
 		parsers.Routes()
+		parsers.Trips()
 		parsers.Stops()
 
 		removeItemsFromWorkdir()

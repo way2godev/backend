@@ -9,8 +9,8 @@ import (
 // GTFS: Trips.txt
 type Schedule struct {
 	gorm.Model
-	LineID uint    `json:"line_id"`
-	Name   *string `json:"name"` // GTFS: trip_headsign
+	LineID uint   `json:"line_id"`
+	Name   string `json:"name"`
 
 	ScheduleStops []ScheduleStop `json:"schedule_stops"`
 	Shape         Shape          `json:"shape"`
@@ -19,5 +19,6 @@ type Schedule struct {
 	GtfsServiceId     string  `json:"gtfs_service_id"`
 	GtfsTripId        string  `json:"gtfs_trip_id"`
 	GtfsTripShortName *string `json:"gtfs_trip_short_name"`
-	GtfsBikesAllowed  *int    `json:"gtfs_bikes_allowed"`
+	GtfsHeadsign      *string `json:"gtfs_headsign"`
+	GtfsBikesAllowed  *bool   `json:"gtfs_bikes_allowed"`
 }

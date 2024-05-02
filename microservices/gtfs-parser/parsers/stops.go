@@ -125,12 +125,8 @@ func (s *gtfsStop) saveToDatabase() {
 	db := database.GetDB()
 	var existingStop entities.Stop
 	db.Where("gtfs_stop_id = ?", s.StopID).First(&existingStop)
-
-	if existingStop.ID != 0 { // Stop already exists
-		log.Printf("Stop %s already exists\n", s.StopName)
-		return
-	} else {
-		db.Create(&stop)
-		log.Printf("Stop %s created\n", s.StopName)
+	if existingStop.ID != 0 { 
+		stop.ID = existingStop.ID
 	}
+	db.Save(&stop)
 }
