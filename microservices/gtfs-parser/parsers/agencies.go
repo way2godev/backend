@@ -3,25 +3,25 @@ package parsers
 import (
 	"fmt"
 	"log"
+	"way2go/constants"
 	"way2go/domain/entities"
 	"way2go/infraestructure/database"
-	"way2go/microservices/gtfs-parser/constants"
 	"way2go/microservices/gtfs-parser/csv"
 )
 
 type gtfsAgency struct {
-	AgencyID       string 
-	AgencyName     string 
-	AgencyUrl      string 
-	AgencyTimezone string 
-	AgencyLang     string 
-	AgencyPhone    string 
-	AgencyFareUrl  string 
-	AgencyEmail    string 
+	AgencyID       string
+	AgencyName     string
+	AgencyUrl      string
+	AgencyTimezone string
+	AgencyLang     string
+	AgencyPhone    string
+	AgencyFareUrl  string
+	AgencyEmail    string
 }
 
 func Agencies() {
-	agencies, err := csv.Read(fmt.Sprintf("%s/%s", constants.WORKDIR, constants.AGENCIES_FILE))
+	agencies, err := csv.Read(fmt.Sprintf("%s/%s", constants.GTFS_PARSER_WORKDIR, constants.GTFS_AGENCIES_FILE))
 	if err != nil {
 		log.Fatalf("Error reading CSV: %v", err)
 		return

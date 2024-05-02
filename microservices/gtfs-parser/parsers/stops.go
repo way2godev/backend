@@ -6,9 +6,9 @@ import (
 	"strconv"
 	"sync"
 	"time"
+	"way2go/constants"
 	"way2go/domain/entities"
 	"way2go/infraestructure/database"
-	"way2go/microservices/gtfs-parser/constants"
 	"way2go/microservices/gtfs-parser/csv"
 )
 
@@ -28,7 +28,7 @@ type gtfsStop struct {
 }
 
 func Stops() {
-	stops, err := csv.Read(fmt.Sprintf("%s/%s", constants.WORKDIR, constants.STOPS_FILE))
+	stops, err := csv.Read(fmt.Sprintf("%s/%s", constants.GTFS_PARSER_WORKDIR, constants.GTFS_STOPS_FILE))
 	if err != nil {
 		log.Fatalf("Error reading CSV: %v", err)
 		return
@@ -57,8 +57,8 @@ func Stops() {
 
 	startTime := time.Now()
 	var wg sync.WaitGroup
-	chunkSize := len(parsedStops) / constants.PROCESSING_CHUNKS
-	for chunk := 0; chunk < constants.PROCESSING_CHUNKS; chunk++ {
+	chunkSize := len(parsedStops) / constants.GTFS_PROCESSING_CHUNKS
+	for chunk := 0; chunk < constants.GTFS_PROCESSING_CHUNKS; chunk++ {
 		wg.Add(1)
 		go func(chunkIndex int) {
 			defer wg.Done()
@@ -125,7 +125,7 @@ func (s *gtfsStop) saveToDatabase() {
 	db := database.GetDB()
 	var existingStop entities.Stop
 	db.Where("gtfs_stop_id = ?", s.StopID).First(&existingStop)
-	if existingStop.ID != 0 { 
+	if existingStop.ID != 0 {
 		stop.ID = existingStop.ID
 	}
 	db.Save(&stop)

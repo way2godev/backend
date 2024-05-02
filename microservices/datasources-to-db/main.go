@@ -6,16 +6,16 @@ import (
 	"os"
 	"strconv"
 	"way2go/bootstrap"
+	"way2go/constants"
 	"way2go/domain/entities"
 	"way2go/infraestructure/database"
-	"way2go/microservices/datasources-to-db/constants"
 )
 
 func main() {
 	bootstrap.Init()
 
 	// Open the constants.SOURCE_FILE and read the csv
-	file, err := os.Open(constants.SOURCES_FILE)
+	file, err := os.Open(constants.GTFS_SOURCES_FILE)
 	if err != nil {
 		log.Fatalf("Error opening file: %v", err)
 	}

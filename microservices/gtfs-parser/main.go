@@ -7,15 +7,13 @@ import (
 	"net/http"
 	"os"
 	"way2go/bootstrap"
+	"way2go/constants"
 	"way2go/domain/entities"
 	"way2go/infraestructure/database"
-	"way2go/microservices/gtfs-parser/constants"
 	"way2go/microservices/gtfs-parser/parsers"
 
 	"github.com/mholt/archiver"
 )
-
-
 
 func main() {
 	bootstrap.Init()
@@ -27,8 +25,8 @@ func main() {
 	log.Printf("Found in total %d datasources\n", len(datasources))
 
 	// Create the data directory if it doesn't exist
-	if _, err := os.Stat(constants.WORKDIR); os.IsNotExist(err) {
-		os.Mkdir(constants.WORKDIR, 0777)
+	if _, err := os.Stat(constants.GTFS_PARSER_WORKDIR); os.IsNotExist(err) {
+		os.Mkdir(constants.GTFS_PARSER_WORKDIR, 0777)
 		log.Println("Data directory created")
 	} else {
 		log.Println("Data directory already exists")
@@ -61,12 +59,12 @@ func main() {
 }
 
 func removeItemsFromWorkdir() {
-	items, err := os.ReadDir(constants.WORKDIR)
+	items, err := os.ReadDir(constants.GTFS_PARSER_WORKDIR)
 	if err != nil {
 		log.Fatalf("Error reading directory: %v", err)
 	}
 	for _, item := range items {
-		err := os.RemoveAll(fmt.Sprintf("%s/%s", constants.WORKDIR, item.Name()))
+		err := os.RemoveAll(fmt.Sprintf("%s/%s", constants.GTFS_PARSER_WORKDIR, item.Name()))
 		if err != nil {
 			log.Fatalf("Error removing item: %v", err)
 		}
@@ -83,7 +81,7 @@ func downloadZip(url string) error {
 	defer resp.Body.Close()
 
 	// Create the file
-	out, err := os.Create(fmt.Sprintf("%s/%s", constants.WORKDIR, "file.zip"))
+	out, err := os.Create(fmt.Sprintf("%s/%s", constants.GTFS_PARSER_WORKDIR, "file.zip"))
 	if err != nil {
 		log.Printf("Error creating file: %v", err)
 		return err
@@ -104,7 +102,7 @@ func unzipFile(filename string) {
 	log.Printf("Unzipping file %s\n", filename)
 
 	// Unzip the file
-	err := archiver.Unarchive(constants.WORKDIR+"/"+filename, constants.WORKDIR)
+	err := archiver.Unarchive(constants.GTFS_PARSER_WORKDIR+"/"+filename, constants.GTFS_PARSER_WORKDIR)
 	if err != nil {
 		log.Fatalf("Error unzipping file: %v", err)
 	}

@@ -5,9 +5,9 @@ import (
 	"log"
 	"sync"
 	"time"
+	"way2go/constants"
 	"way2go/domain/entities"
 	"way2go/infraestructure/database"
-	"way2go/microservices/gtfs-parser/constants"
 	"way2go/microservices/gtfs-parser/csv"
 )
 
@@ -25,7 +25,7 @@ type gtfsTrip struct {
 }
 
 func Trips() {
-	trips, err := csv.Read(fmt.Sprintf("%s/%s", constants.WORKDIR, constants.TRIPS_FILE))
+	trips, err := csv.Read(fmt.Sprintf("%s/%s", constants.GTFS_PARSER_WORKDIR, constants.GTFS_TRIPS_FILE))
 	if err != nil {
 		log.Fatalf("Error reading CSV: %v", err)
 		return
@@ -52,8 +52,8 @@ func Trips() {
 
 	startTime := time.Now()
 	var wg sync.WaitGroup
-	chunkSize := len(parsedTrips) / constants.PROCESSING_CHUNKS
-	for i := 0; i < constants.PROCESSING_CHUNKS; i++ {
+	chunkSize := len(parsedTrips) / constants.GTFS_PROCESSING_CHUNKS
+	for i := 0; i < constants.GTFS_PROCESSING_CHUNKS; i++ {
 		wg.Add(1)
 		go func(chunkIndex int) {
 			defer wg.Done()

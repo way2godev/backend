@@ -5,6 +5,9 @@ import (
 	"os"
 )
 
+// Read reads the contents of a CSV file and returns a slice of maps, where each map represents a row in the CSV file.
+// The keys of the map are the column names from the CSV file, and the values are the corresponding field values for each row.
+// The first row of the CSV file is assumed to be the header row containing the column names.
 func Read(filename string) ([]map[string]string, error) {
 	file, err := os.Open(filename)
 	if err != nil {
